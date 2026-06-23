@@ -1,0 +1,23 @@
+services:
+  postgres_db: 
+    image: postgres:16
+    container_name: users_posts_postgres
+    environment:
+      POSTGRES_DB: users_posts_db
+      POSTGRES_USER: marek
+      POSTGRES_PASSWORD: marek
+    ports: 
+      - '5434:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  python_app:
+    build: .
+    container_name: users_posts_python
+    depends_on:
+      - postgres_db
+    volumes:
+      - .:/app
+
+volumes:
+  postgres_data:
